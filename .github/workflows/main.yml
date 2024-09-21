@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: vimtor/action-zip@v1.2
+      - uses: montudor/action-zip@v1
         with:
-          files: external_libs fix_host_save_screenshots internal_libs palworld_save_tools bases.cmd clean_up.cmd convert_json_to_sav.cmd convert_sav_to_json.cmd convert.py convertids.cmd convertids.py convertxycoords.bat delete_pals_save.cmd delete_pals_save.py fix_host_save_readme.txt fix_host_save.cmd fix_host_save.py fix_save.cmd fix_save.py fix_save.sh fix_world.cmd fix_world.sh LICENSE linux_test.cmd README.md sort_players.cmd sort_players.py structure.txt
-          dest: result.zip
+          args: zip -qq -r dir.zip *

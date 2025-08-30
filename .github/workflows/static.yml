@@ -2,7 +2,7 @@ name: Deploy README to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]   # change if your default branch is different
+    branches: [ "main" ]  # change if your default branch is different
   workflow_dispatch:
 
 permissions:
@@ -24,20 +24,22 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # Convert README.md → _site/index.html using Python-Markdown
       - name: Build static HTML from README.md
+        shell: bash
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install markdown
           mkdir -p _site
           python3 - <<'PY'
-import markdown, pathlib
-html = markdown.markdown(pathlib.Path('README.md').read_text(encoding='utf-8'))
+import markdown, pathlib, html
+readme = pathlib.Path('README.md').read_text(encoding='utf-8')
+title = pathlib.Path.cwd().name
+body = markdown.markdown(readme)
 template = f"""<!doctype html><meta charset="utf-8">
-<title>{pathlib.Path.cwd().name}</title>
+<title>{html.escape(title)}</title>
 <link rel="stylesheet" href="https://unpkg.com/github-markdown-css/github-markdown.css">
-<article class="markdown-body" style="max-width: 860px; margin: 40px auto; padding: 24px;">
-{html}
+<article class="markdown-body" style="max-width:860px;margin:40px auto;padding:24px;">
+{body}
 </article>"""
 pathlib.Path('_site/index.html').write_text(template, encoding='utf-8')
 PY
